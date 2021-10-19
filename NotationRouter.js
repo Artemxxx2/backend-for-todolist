@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const mongooseSchema = require('./mongooseSchema')
 route.get('/', async (req,res)=>{
    try{
-    const data = await mongooseSchema.find()
+    const data = await mongooseSchema.find().sort({date:-1})
     res.send(data)
    }
    catch(err){
@@ -26,8 +26,10 @@ route.post('/', async (req,res)=>{
 })
 route.delete('/',async (req,res)=>{
     try{
-        const data = await mongooseSchema.find({title:req.body.title})
-        res.send(data)
+        let requestBody = String(req.body._id)
+        const data = await mongooseSchema.find({_id:requestBody})
+        const answer =  await mongooseSchema.deleteOne({data})
+        res.send()
        }
        catch(err){
         res.send(err)
