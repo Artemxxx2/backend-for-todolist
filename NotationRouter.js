@@ -26,8 +26,8 @@ route.post('/', async (req,res)=>{
 })
 route.delete('/',async (req,res)=>{
     try{
-        const data = await mongooseSchema.deleteOne({title:req.body.title})
-        res.send()
+        const data = await mongooseSchema.find({title:req.body.title})
+        res.send(data)
        }
        catch(err){
         res.send(err)
@@ -35,7 +35,12 @@ route.delete('/',async (req,res)=>{
 })
 route.put('/', async (req,res)=>{
     try{
-        const data = await mongooseSchema.updateOne({title:req.body.title},{wisdomthoughts:req.body.wisdomthoughts})
+        const elementforchange = await mongooseSchema.updateOne({_id:req.body._id},{
+            $set:{
+                "title": req.body.title,
+                "wisdomthoughts": req.body.wisdomthoughts
+            }
+        })
         res.send()
        }
        catch(err){
